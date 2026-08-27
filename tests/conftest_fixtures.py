@@ -39,6 +39,176 @@ def manufactured_fields(size=31): # size: largest number of cells or points
     return fields
     
 
+# VERTEX cells
+@pytest.fixture(scope="session")
+def PolyData_two_vertexes(manufactured_fields, request):
+    points = np.asarray(
+        [[3.0, 1.5, 3.0],
+         [3.0, 2.0, 3.0]]
+    )
+    verts = np.hstack(
+        [[1, 0],
+         [1, 1]]
+    )
+    return make_PolyData(
+        request, 
+        points, manufactured_fields, 
+        verts=verts
+    )
+    
+
+# POLY_VERTEX cells
+@pytest.fixture(scope="session")
+def PolyData_two_polyvertexes(manufactured_fields, request):
+    points = np.asarray(
+        [[0.0, 1.0, 3.0],
+         [0.0, 1.5, 3.0],
+         [1.0, 1.0, 3.0],
+         [1.5, 1.0, 3.0],
+         [1.0, 1.5, 3.0]]
+    )
+    verts = np.hstack(
+        [[2, 0, 1],
+         [3, 2, 3, 4]]
+    )
+    return make_PolyData(
+        request, 
+        points, manufactured_fields, 
+        verts=verts
+    )
+    
+
+# LINE cells
+@pytest.fixture(scope="session")
+def PolyData_two_lines(manufactured_fields, request):
+    points = np.asarray(
+        [[1.0, 3.0, 3.0],
+         [1.0, 3.5, 3.0],
+         [0.0, 4.5, 3.0]]
+    )
+    lines = np.hstack(
+        [[2, 1, 2],
+         [2, 0, 1]]
+    )
+    return make_PolyData(
+        request, 
+        points, manufactured_fields, 
+        lines=lines
+    )
+    
+
+# POLY_LINE cells
+@pytest.fixture(scope="session")
+def PolyData_two_polylines(manufactured_fields, request):
+    points = np.asarray(
+        [[2.0, 3.0, 3.0],
+         [2.0, 3.5, 3.0],
+         [2.5, 4.5, 3.0],
+         [3.0, 4.5, 3.0],
+         [3.0, 4.0, 3.0],
+         [2.5, 3.5, 3.0]]
+    )
+    lines = np.hstack(
+        [[3, 5, 4, 3],
+         [4, 3, 2, 1, 0]]
+    )
+    return make_PolyData(
+        request, 
+        points, manufactured_fields, 
+        lines=lines
+    )
+    
+
+# TRIANGLE cells
+@pytest.fixture(scope="session")
+def PolyData_two_triangles(manufactured_fields, request):
+    points = np.asarray(
+        [[1.0, 3.5, 3.0],
+         [2.0, 3.5, 3.0],
+         [2.0, 4.5, 3.0],
+         [1.0, 4.5, 3.0]]
+    )
+    faces = np.hstack(
+        [[3, 1, 2, 3],
+         [3, 0, 1, 3]]
+    )
+    return make_PolyData(
+        request, 
+        points, manufactured_fields, 
+        faces=faces
+    )
+    
+
+# QUAD cells
+@pytest.fixture(scope="session")
+def PolyData_two_quads(manufactured_fields, request):
+    points = np.asarray(
+        [[1.0, 2.0, 3.0],
+         [2.0, 2.0, 3.0],
+         [3.0, 2.0, 3.0],
+         [1.0, 3.0, 3.0],
+         [2.0, 3.0, 3.0],
+         [3.0, 3.5, 3.0]]
+    )
+    faces = np.hstack(
+        [[4, 0, 1, 4, 3],
+         [4, 1, 2, 5, 4]]
+    )
+    return make_PolyData(
+        request, 
+        points, manufactured_fields, 
+        faces=faces
+    )
+    
+
+# POLYGON cells
+@pytest.fixture(scope="session")
+def PolyData_two_polygons(manufactured_fields, request):
+    points = np.asarray(
+        [[1.0, 2.0, 3.0],
+         [2.0, 2.0, 3.0],
+         [2.0, 1.5, 3.0],
+         [2.5, 1.5, 3.0],
+         [3.0, 1.0, 3.0],
+         [2.5, 0.5, 3.0],
+         [2.0, 0.5, 3.0],
+         [1.5, 1.0, 3.0],
+         [1.0, 1.5, 3.0]]
+    )
+    faces = np.hstack(
+        [[6, 7, 6, 5, 4, 3, 2],
+         [5, 7, 2, 1, 0, 8]]
+    )
+    return make_PolyData(
+        request, 
+        points, manufactured_fields, 
+        faces=faces
+    )
+    
+
+# TRIANGLE_STRIP cells
+@pytest.fixture(scope="session")
+def PolyData_two_strips(manufactured_fields, request):
+    points = np.asarray(
+        [[-2.0, 1.0, 3.0],
+         [-1.0, 1.0, 3.0],
+         [-1.0, 2.0, 3.0],
+         [ 0.0, 2.0, 3.0],
+         [ 1.0, 2.0, 3.0],
+         [ 0.0, 3.0, 3.0],
+         [ 1.0, 3.0, 3.0]]
+    )
+    strips = np.hstack(
+        [[4, 0, 1, 2, 3],
+         [5, 2, 5, 3, 6, 4]]
+    )
+    return make_PolyData(
+        request, 
+        points, manufactured_fields, 
+        strips=strips
+    )
+    
+
 @pytest.fixture(scope="session")
 def pvUG_three_segments(manufactured_fields):
     points = np.asarray(

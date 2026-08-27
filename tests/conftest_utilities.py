@@ -1,5 +1,8 @@
 # Functions shared by fixtures
 
+import os
+
+import pyvista as pv
 from vtk import vtkDataSetAttributes as vtkAttributeTypes
 
 
@@ -40,3 +43,37 @@ def set_attributes(dataset, fields):
 
     return
     
+
+# Name of the directory to dump the manufactured datasets,
+#   relative to the directory "tests"
+dumpdir_name="data"
+
+
+# Dump to disk a PolyData dataset
+def dump_PolyData(dataset, request):
+    if request.config.getoption("dump"):
+        filename = os.path.join(
+            dumpdir_name,
+            request.fixturename + ".vtp"
+        )
+        dataset.save(filename)
+    return
+    
+
+# Manufacture a PolyData dataset
+def make_PolyData(
+    request,
+    points, fields, 
+    verts=None, lines=None, faces=None, strips=None
+):
+    dataset = pv.PolyData(
+        points,
+        verts=verts, lines=lines, faces=faces, strips=strips
+    )
+    
+    set_attributes(dataset, fields)
+    dump_PolyData(dataset, request)
+    
+    return dataset
+    
+
