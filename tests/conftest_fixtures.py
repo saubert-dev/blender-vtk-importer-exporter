@@ -19,7 +19,7 @@ from conftest_utilities import *
 #             [11, 12, 13, 14, 15, 16, 17, 18, 19],
 #             [21, 22, 23, 24, 25, 26, 27, 28, 29]]
 @pytest.fixture(scope="session")
-def manufactured_fields(size=5): # size: largest number of cells or points
+def manufactured_fields(size=31): # size: largest number of cells or points
     # Table [t(i,j)] such that t(i,j) = j + 10*i
     #   with i index of line and j index of column
     #   i and j start at 0

@@ -3,7 +3,7 @@
 from vtk import vtkDataSetAttributes as vtkAttributeTypes
 
 
-# Add attributes to a DataSet
+# Add attributes to a dataset
 #   See https://docs.pyvista.org/api/core/_autosummary/pyvista.dataset
 #       https://docs.pyvista.org/api/core/_autosummary/pyvista.datasetattributes
 def set_attributes(dataset, fields):
@@ -12,6 +12,11 @@ def set_attributes(dataset, fields):
         (dataset.point_data, "_point", 1)): # Point values are set positive
         
         n = data.valid_array_len
+        if n > len(fields[0][2]):
+            msg = (f"The size of fields must be at least equal to {n}. "
+                   "See manufactured_fields() in conftest_fixtures.py.")
+            raise ValueError(msg)
+            
         for f_name, f_type, f_array in fields:
             f_data = f_array[:n] * scale
             match f_type:
