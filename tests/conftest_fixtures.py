@@ -231,13 +231,63 @@ def PolyData_two_merged(
     
     dataset = pv.merge(dataset_list)
     
+    # Reset the attributes, preserving the cells to be deleted
+    to_remove = dataset.cell_data[to_remove_key] # Backup
     dataset.point_data.clear()
     dataset.cell_data.clear()
     set_attributes(dataset, manufactured_fields)
+    dataset.cell_data[to_remove_key] = to_remove # Restore
     
     dump_PolyData(dataset, request)
     
     return dataset
+    
+
+# Manufacturing of the datasets with a single cell
+
+@pytest.fixture(scope="session")
+def PolyData_one_vertex(PolyData_two_vertexes, request):
+    return remove_cells(PolyData_two_vertexes, request)
+    
+
+@pytest.fixture(scope="session")
+def PolyData_one_polyvertex(PolyData_two_polyvertexes, request):
+    return remove_cells(PolyData_two_polyvertexes, request)
+    
+
+@pytest.fixture(scope="session")
+def PolyData_one_line(PolyData_two_lines, request):
+    return remove_cells(PolyData_two_lines, request)
+    
+
+@pytest.fixture(scope="session")
+def PolyData_one_polyline(PolyData_two_polylines, request):
+    return remove_cells(PolyData_two_polylines, request)
+    
+
+@pytest.fixture(scope="session")
+def PolyData_one_triangle(PolyData_two_triangles, request):
+    return remove_cells(PolyData_two_triangles, request)
+    
+
+@pytest.fixture(scope="session")
+def PolyData_one_quad(PolyData_two_quads, request):
+    return remove_cells(PolyData_two_quads, request)
+    
+
+@pytest.fixture(scope="session")
+def PolyData_one_polygon(PolyData_two_polygons, request):
+    return remove_cells(PolyData_two_polygons, request)
+    
+
+@pytest.fixture(scope="session")
+def PolyData_one_strip(PolyData_two_strips, request):
+    return remove_cells(PolyData_two_strips, request)
+    
+
+@pytest.fixture(scope="session")
+def PolyData_one_merged(PolyData_two_merged, request):
+    return remove_cells(PolyData_two_merged, request)
     
 
 @pytest.fixture(scope="session")

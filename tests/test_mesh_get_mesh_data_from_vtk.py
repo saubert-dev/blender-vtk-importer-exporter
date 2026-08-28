@@ -19,6 +19,33 @@ m_mesh = import_submodule("mesh")
     "name, n_vertices, n_edges, n_faces",
     [
         pytest.param(
+            "PolyData_one_vertex", 1, 0, 0, id="one_vertex"
+        ),
+        pytest.param(
+            "PolyData_one_polyvertex", 2, 0, 0, id="one_polyvertex"
+        ),
+        pytest.param(
+            "PolyData_one_line", 2, 1, 0, id="one_line"
+        ),
+        pytest.param(
+            "PolyData_one_polyline", 3, 2, 0, id="one_polyline"
+        ),
+        pytest.param(
+            "PolyData_one_triangle", 3, 0, 1, id="one_triangle"
+        ),
+        pytest.param(
+            "PolyData_one_quad", 4, 0, {"PolyData": 2, "UnstructuredGrid": 1}, id="one_quad"
+        ),
+        pytest.param(
+            "PolyData_one_polygon", 6, 0, {"PolyData": 4, "UnstructuredGrid": 1}, id="one_polygon"
+        ),
+        pytest.param(
+            "PolyData_one_strip", 4, 0, 2, id="one_strip"
+        ),
+        pytest.param(
+            "PolyData_one_merged", 4, 0, 1, id="one_merged"
+        ),
+        pytest.param(
             "PolyData_two_vertexes", 2, 0, 0, id="two_vertexes"
         ),
         pytest.param(

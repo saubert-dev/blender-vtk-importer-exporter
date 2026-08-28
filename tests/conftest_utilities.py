@@ -2,6 +2,7 @@
 
 import os
 
+import numpy as np
 import pyvista as pv
 from vtk import vtkDataSetAttributes as vtkAttributeTypes
 
@@ -60,6 +61,11 @@ def dump_PolyData(dataset, request):
     return
     
 
+# Name of the attribute indicating the cells to be deleted,
+#   to manufacture the datasets with a single cell
+to_remove_key = ".to_remove" # Hidden from Blender UI
+
+
 # Manufacture a PolyData dataset
 def make_PolyData(
     request,
@@ -72,8 +78,20 @@ def make_PolyData(
     )
     
     set_attributes(dataset, fields)
+    to_remove = np.full(dataset.cell_data.valid_array_len, True)
+    to_remove[0] = False # To keep only the first cell
+    dataset.cell_data[to_remove_key] = to_remove
+    
     dump_PolyData(dataset, request)
     
     return dataset
     
 
+# Manufacture a dataset by removing cells
+def remove_cells(full_dataset, request):
+    strip_dataset = full_dataset.remove_cells(
+        full_dataset.cell_data[to_remove_key].astype(np.bool_)
+    )
+    dump_PolyData(strip_dataset, request)
+    return strip_dataset
+    
