@@ -209,6 +209,37 @@ def PolyData_two_strips(manufactured_fields, request):
     )
     
 
+# Merging of single type datasets
+@pytest.fixture(scope="session")
+def PolyData_two_merged(
+    PolyData_two_vertexes,
+    PolyData_two_polyvertexes,
+    PolyData_two_lines,
+    PolyData_two_polylines,
+    PolyData_two_triangles,
+    PolyData_two_quads,
+    PolyData_two_polygons,
+    PolyData_two_strips,
+    manufactured_fields,
+    request
+):
+    # Assemble the list of datasets to merge
+    name_list = list(locals().keys())
+    dataset_list = []
+    for name in name_list[:-2]: # -2 to skip "manufactured_fields" and "request"
+        dataset_list.append(request.getfixturevalue(name))
+    
+    dataset = pv.merge(dataset_list)
+    
+    dataset.point_data.clear()
+    dataset.cell_data.clear()
+    set_attributes(dataset, manufactured_fields)
+    
+    dump_PolyData(dataset, request)
+    
+    return dataset
+    
+
 @pytest.fixture(scope="session")
 def pvUG_three_segments(manufactured_fields):
     points = np.asarray(

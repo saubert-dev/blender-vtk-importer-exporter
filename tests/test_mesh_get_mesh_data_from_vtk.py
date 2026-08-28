@@ -42,6 +42,9 @@ m_mesh = import_submodule("mesh")
         pytest.param(
             "PolyData_two_strips", 7, 0, 5, id="two_strips"
         ),
+        pytest.param(
+            "PolyData_two_merged", 31, 7, {"PolyData": 18, "UnstructuredGrid": 8}, id="two_merged"
+        ),
     ],
 )
 
