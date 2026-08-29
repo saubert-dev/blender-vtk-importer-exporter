@@ -75,11 +75,11 @@ class TestClass:
     
     def test_domain_type(
         self,
-        pvUG_one_triangle, # PyVista DataSet with attributes
+        PolyData_one_triangle, # PyVista DataSet with attributes
         t_domain, b_domain, suffix, # Domain of the attribute
         name, data_type # Type of data stored in attribute 
     ):
-        vtk_data = pvUG_one_triangle
+        vtk_data = PolyData_one_triangle
         
         # Mesh and Material setup
         mesh_name = unique_mesh_name()

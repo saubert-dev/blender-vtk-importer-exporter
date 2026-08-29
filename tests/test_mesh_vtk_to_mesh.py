@@ -10,18 +10,18 @@ m_mesh = import_submodule("mesh")
 
 class TestClass:
 
-    def test_bpy_data_meshes_update(self, pvPD_one_point):
+    def test_bpy_data_meshes_update(self, PolyData_one_vertex):
         mesh_name = unique_mesh_name()
         mesh = m_mesh.vtk_to_mesh(
-            pvPD_one_point,
+            PolyData_one_vertex,
             mesh_name
         )
         assert bpy.data.meshes.find(mesh_name) != -1 # "find != -1" means "found"
         
 
-    def test_one_triangle(self, pvUG_one_triangle):
+    def test_one_triangle(self, PolyData_one_triangle):
         mesh = m_mesh.vtk_to_mesh(
-            pvUG_one_triangle,
+            PolyData_one_triangle,
             unique_mesh_name()
         )
         assert len(mesh.vertices) == 3
