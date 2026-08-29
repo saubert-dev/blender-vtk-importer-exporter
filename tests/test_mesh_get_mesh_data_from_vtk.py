@@ -43,7 +43,7 @@ m_mesh = import_submodule("mesh")
             "PolyData_one_strip", 4, 0, 2, id="one_strip"
         ),
         pytest.param(
-            "PolyData_one_merged", 4, 0, 1, id="one_merged"
+            "PolyData_one_merged", 25, 3, {"PolyData": 9, "UnstructuredGrid": 5}, id="one_merged"
         ),
         pytest.param(
             "PolyData_two_vertexes", 2, 0, 0, id="two_vertexes"
