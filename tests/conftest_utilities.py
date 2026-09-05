@@ -93,6 +93,19 @@ def make_PolyData(
     return dataset
     
 
+# Manufacture an UnstructuredGrid dataset
+def make_UnstructuredGrid(
+    request,
+    points, fields,
+    cells, celltypes
+):
+    dataset = pv.UnstructuredGrid(
+        cells, celltypes, points
+    )
+    finalize_dataset(dataset, fields, request)
+    return dataset
+    
+
 # Merge datasets and reset attributes
 def merge_datasets(
     request, fields,

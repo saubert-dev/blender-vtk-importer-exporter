@@ -19,7 +19,7 @@ from conftest_utilities import *
 #             [11, 12, 13, 14, 15, 16, 17, 18, 19],
 #             [21, 22, 23, 24, 25, 26, 27, 28, 29]]
 @pytest.fixture(scope="session")
-def manufactured_fields(size=31): # size: largest number of cells or points
+def manufactured_fields(size=41): # size: largest number of cells or points
     # Table [t(i,j)] such that t(i,j) = j + 10*i
     #   with i index of line and j index of column
     #   i and j start at 0
@@ -209,6 +209,58 @@ def PolyData_two_strips(manufactured_fields, request):
     )
     
 
+# PIXEL cells
+@pytest.fixture(scope="session")
+def UnstructuredGrid_two_pixels(manufactured_fields, request):
+    points = np.asarray(
+        [[-1.0, 4.5, 3.0],
+         [-0.5, 4.5, 3.0],
+         [ 0.0, 4.5, 3.0],
+         [-1.0, 5.0, 3.0],
+         [-0.5, 5.0, 3.0],
+         [ 0.0, 5.0, 3.0]]
+    )
+    cells = np.hstack(
+        [[4, 0, 1, 3, 4],
+         [4, 1, 2, 4, 5]]
+    )
+    celltypes = np.full(
+        2,
+        pv.CellType.PIXEL, dtype=np.int8
+    )
+    return make_UnstructuredGrid(
+        request, 
+        points, manufactured_fields, 
+        cells, celltypes
+    )
+    
+
+# TETRA cells
+@pytest.fixture(scope="session")
+def UnstructuredGrid_two_tetrahedrons(manufactured_fields, request):
+    points = np.asarray(
+        [[-2.0, 3.0, 3.0],
+         [-1.0, 3.0, 3.0],
+         [-2.0, 4.0, 3.0],
+         [-1.0, 4.0, 2.0],
+         [-2.0, 5.0, 3.0],
+         [-1.0, 5.0, 3.0]]
+    )
+    cells = np.hstack(
+        [[4, 0, 2, 1, 3],
+         [4, 2, 4, 5, 3]]
+    )
+    celltypes = np.full(
+        2,
+        pv.CellType.TETRA, dtype=np.int8
+    )
+    return make_UnstructuredGrid(
+        request, 
+        points, manufactured_fields, 
+        cells, celltypes
+    )
+    
+
 # Merging of single type datasets
 
 @pytest.fixture(scope="session")
@@ -277,5 +329,15 @@ def PolyData_one_strip(PolyData_two_strips, request):
 @pytest.fixture(scope="session")
 def PolyData_one_merged(PolyData_two_merged, request):
     return strip_dataset(PolyData_two_merged, request)
+    
+
+@pytest.fixture(scope="session")
+def UnstructuredGrid_one_pixel(UnstructuredGrid_two_pixels, request):
+    return strip_dataset(UnstructuredGrid_two_pixels, request)
+    
+
+@pytest.fixture(scope="session")
+def UnstructuredGrid_one_tetrahedron(UnstructuredGrid_two_tetrahedrons, request):
+    return strip_dataset(UnstructuredGrid_two_tetrahedrons, request)
     
     

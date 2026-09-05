@@ -15,6 +15,7 @@ m_mesh = import_submodule("mesh")
 #   n_edges:    Expected number of edges
 #   n_faces:    Expected number of faces
 #               Can be different according to the type of PyVista DataSet
+#               Set to -1 for non-testable types of cell (e.g. PIXEL not supported by PolyData)
 @pytest.mark.parametrize(
     "name, n_vertices, n_edges, n_faces",
     [
@@ -46,6 +47,12 @@ m_mesh = import_submodule("mesh")
             "PolyData_one_merged", 25, 3, {"PolyData": 9, "UnstructuredGrid": 5}, id="one_merged"
         ),
         pytest.param(
+            "UnstructuredGrid_one_pixel", 4, 0, {"PolyData": -1, "UnstructuredGrid": 1}, id="one_pixel"
+        ),
+        pytest.param(
+            "UnstructuredGrid_one_tetrahedron", 4, 0, {"PolyData": -1, "UnstructuredGrid": 0}, id="one_tetrahedron"
+        ),
+        pytest.param(
             "PolyData_two_vertexes", 2, 0, 0, id="two_vertexes"
         ),
         pytest.param(
@@ -72,6 +79,12 @@ m_mesh = import_submodule("mesh")
         pytest.param(
             "PolyData_two_merged", 31, 7, {"PolyData": 18, "UnstructuredGrid": 8}, id="two_merged"
         ),
+        pytest.param(
+            "UnstructuredGrid_two_pixels", 6, 0, {"PolyData": -1, "UnstructuredGrid": 2}, id="two_pixels"
+        ),
+        pytest.param(
+            "UnstructuredGrid_two_tetrahedrons", 6, 0, {"PolyData": -1, "UnstructuredGrid": 0}, id="two_tetrahedrons"
+        ),
     ],
 )
 
@@ -86,6 +99,10 @@ class TestClass:
         name, n_vertices, n_edges, n_faces,
         request
     ):
+        if isinstance(n_faces, dict):
+            if n_faces[dataset_type] < 0:
+                pytest.skip("Non-testable type(s) of cell")
+                
         dataset = request.getfixturevalue(name)
         match dataset_type:
             case "PolyData":
