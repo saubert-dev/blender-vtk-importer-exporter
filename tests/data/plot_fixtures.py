@@ -27,7 +27,7 @@ def plot_cells(dataset, pl):
         show_scalar_bar=False,
     )
     
-    height = n_cells/20.0
+    height = n_cells/22.0
     sbar = pl.add_scalar_bar(
         title="Cell ID",
         height=height,
@@ -73,16 +73,19 @@ def plot_grid(pl):
     pl.show_grid(
         bounds=[-2, 3, 0, 5, -1, 4],
         bold=False,
+        font_size=pv.global_theme.font.size-6,
         xtitle=" ",
         ytitle=" ",
         n_xlabels=6,
         n_ylabels=6,
         use_2d=True,
         grid="back",
+        location="front",
+        fmt="%.1f",
     )
     
     pl.add_axes(
-        viewport=(0.0, 0.0, 0.2, 0.2),
+        viewport=(0.0, 0.0, 0.18, 0.18),
     )
     
     return 
@@ -96,9 +99,14 @@ def plot(file, off_screen=False):
     plot_points(dataset, pl)
     plot_grid(pl)
     
+    pl.add_title(
+        file,
+        font_size=pv.global_theme.font.size-8,
+    )
+    
     pl.enable_parallel_projection()
     pl.view_xy()
-    pl.camera.zoom(1.5)
+    pl.camera.zoom(1.4)
 
     return pl
     
