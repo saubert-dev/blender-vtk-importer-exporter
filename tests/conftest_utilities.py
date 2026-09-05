@@ -93,6 +93,29 @@ def make_PolyData(
     return dataset
     
 
+# Merge datasets and reset attributes
+def merge_datasets(
+    request, fields,
+    dataset_list=None, name_list=None
+):
+    if dataset_list is None:
+        dataset_list = list()
+    if name_list: # Extend the list of datasets to merge
+        for name in name_list:
+            dataset_list.append(request.getfixturevalue(name))
+    
+    dataset = pv.merge(dataset_list)
+    
+    # Reset the attributes, preserving the cells to be deleted
+    to_remove = dataset.cell_data[to_remove_key] # Backup
+    dataset.point_data.clear()
+    dataset.cell_data.clear()
+    set_attributes(dataset, fields)
+    dataset.cell_data[to_remove_key] = to_remove # Restore
+    
+    return dataset
+    
+
 # Manufacture a dataset by removing cells
 def remove_cells(full_dataset, request):
     strip_dataset = full_dataset.remove_cells(

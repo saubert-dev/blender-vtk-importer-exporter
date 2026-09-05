@@ -210,6 +210,7 @@ def PolyData_two_strips(manufactured_fields, request):
     
 
 # Merging of single type datasets
+
 @pytest.fixture(scope="session")
 def PolyData_two_merged(
     PolyData_two_vertexes,
@@ -223,23 +224,11 @@ def PolyData_two_merged(
     manufactured_fields,
     request
 ):
-    # Assemble the list of datasets to merge
-    name_list = list(locals().keys())
-    dataset_list = []
-    for name in name_list[:-2]: # -2 to skip "manufactured_fields" and "request"
-        dataset_list.append(request.getfixturevalue(name))
-    
-    dataset = pv.merge(dataset_list)
-    
-    # Reset the attributes, preserving the cells to be deleted
-    to_remove = dataset.cell_data[to_remove_key] # Backup
-    dataset.point_data.clear()
-    dataset.cell_data.clear()
-    set_attributes(dataset, manufactured_fields)
-    dataset.cell_data[to_remove_key] = to_remove # Restore
-    
+    dataset = merge_datasets(
+        request, manufactured_fields,
+        name_list=list(locals().keys())[:-2] # -2 to skip "manufactured_fields" and "request"
+    )
     dump_dataset(dataset, request)
-    
     return dataset
     
 
