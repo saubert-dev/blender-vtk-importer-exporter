@@ -116,11 +116,17 @@ def merge_datasets(
     return dataset
     
 
+# Remove cells from a dataset
+def remove_cells(dataset, invert_selection=False):
+    to_remove = dataset.cell_data[to_remove_key].astype(np.bool_)
+    if invert_selection:
+        to_remove = np.logical_not(to_remove)
+    return dataset.remove_cells(to_remove)
+    
+
 # Manufacture a dataset by removing cells
-def remove_cells(full_dataset, request):
-    strip_dataset = full_dataset.remove_cells(
-        full_dataset.cell_data[to_remove_key].astype(np.bool_)
-    )
+def strip_dataset(full_dataset, request):
+    strip_dataset = remove_cells(full_dataset)
     dump_dataset(strip_dataset, request)
     return strip_dataset
     

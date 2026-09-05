@@ -236,45 +236,46 @@ def PolyData_two_merged(
 
 @pytest.fixture(scope="session")
 def PolyData_one_vertex(PolyData_two_vertexes, request):
-    return remove_cells(PolyData_two_vertexes, request)
+    return strip_dataset(PolyData_two_vertexes, request)
     
 
 @pytest.fixture(scope="session")
 def PolyData_one_polyvertex(PolyData_two_polyvertexes, request):
-    return remove_cells(PolyData_two_polyvertexes, request)
+    return strip_dataset(PolyData_two_polyvertexes, request)
     
 
 @pytest.fixture(scope="session")
 def PolyData_one_line(PolyData_two_lines, request):
-    return remove_cells(PolyData_two_lines, request)
+    return strip_dataset(PolyData_two_lines, request)
     
 
 @pytest.fixture(scope="session")
 def PolyData_one_polyline(PolyData_two_polylines, request):
-    return remove_cells(PolyData_two_polylines, request)
+    return strip_dataset(PolyData_two_polylines, request)
     
 
 @pytest.fixture(scope="session")
 def PolyData_one_triangle(PolyData_two_triangles, request):
-    return remove_cells(PolyData_two_triangles, request)
+    return strip_dataset(PolyData_two_triangles, request)
     
 
 @pytest.fixture(scope="session")
 def PolyData_one_quad(PolyData_two_quads, request):
-    return remove_cells(PolyData_two_quads, request)
+    return strip_dataset(PolyData_two_quads, request)
     
 
 @pytest.fixture(scope="session")
 def PolyData_one_polygon(PolyData_two_polygons, request):
-    return remove_cells(PolyData_two_polygons, request)
+    return strip_dataset(PolyData_two_polygons, request)
     
 
 @pytest.fixture(scope="session")
 def PolyData_one_strip(PolyData_two_strips, request):
-    return remove_cells(PolyData_two_strips, request)
+    return strip_dataset(PolyData_two_strips, request)
     
 
 @pytest.fixture(scope="session")
 def PolyData_one_merged(PolyData_two_merged, request):
-    return remove_cells(PolyData_two_merged, request)
+    return strip_dataset(PolyData_two_merged, request)
+    
     
