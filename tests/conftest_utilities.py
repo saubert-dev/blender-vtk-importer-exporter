@@ -50,12 +50,12 @@ def set_attributes(dataset, fields):
 dumpdir_name="data"
 
 
-# Dump to disk a PolyData dataset
-def dump_PolyData(dataset, request):
+# Dump to disk a dataset
+def dump_dataset(dataset, request):
     if request.config.getoption("dump"):
         filename = os.path.join(
             dumpdir_name,
-            request.fixturename + ".vtp"
+            request.fixturename + ".vtk"
         )
         dataset.save(filename)
     return
@@ -82,7 +82,7 @@ def make_PolyData(
     to_remove[0] = False # To keep only the first cell
     dataset.cell_data[to_remove_key] = to_remove
     
-    dump_PolyData(dataset, request)
+    dump_dataset(dataset, request)
     
     return dataset
     
@@ -92,6 +92,6 @@ def remove_cells(full_dataset, request):
     strip_dataset = full_dataset.remove_cells(
         full_dataset.cell_data[to_remove_key].astype(np.bool_)
     )
-    dump_PolyData(strip_dataset, request)
+    dump_dataset(strip_dataset, request)
     return strip_dataset
     

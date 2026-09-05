@@ -238,7 +238,7 @@ def PolyData_two_merged(
     set_attributes(dataset, manufactured_fields)
     dataset.cell_data[to_remove_key] = to_remove # Restore
     
-    dump_PolyData(dataset, request)
+    dump_dataset(dataset, request)
     
     return dataset
     
