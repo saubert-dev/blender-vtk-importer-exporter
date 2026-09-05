@@ -1,6 +1,7 @@
 # Tools to visualize manufactured datasets
 
 import argparse
+import pathlib
 
 import numpy as np
 import pyvista as pv
@@ -126,7 +127,8 @@ def save(file, output):
 
 def get_args():
     usage_text = (
-        "Visualize one of the manufactured PyVista datasets."
+        "Visualize the manufactured PyVista datasets. "
+        "A screenshot of the rendering window can be saved as a graphic file."
     )
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter, 
@@ -134,28 +136,41 @@ def get_args():
     )
     
     parser.add_argument(
-        "file", type=str, default="", metavar="<file_in>",
-        help="name of the file to read"
+        "files", type=str, default="", metavar="<file_in>", nargs="+",
+        help="name of the file(s) to read"
     )
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
         "-o", "--output", type=str, default="", metavar="<file_out>",
         help=(
-            "name of the file to write (.svg, .eps, .ps, .pdf, .tex) ; "
+            "name of the file to write (with extension .svg, .eps, .ps, .pdf, .tex) ; "
+            "if specified, there is no graphical display"
+        )
+    )
+    group.add_argument(
+        "-f", "--format", type=str, default="", choices={"svg", "eps", "ps", "pdf", "tex"},
+        help=(
+            "format of the file(s) to write ; "
             "if specified, there is no graphical display"
         )
     )
  
     args = parser.parse_args()
     
-    return args.file, args.output
+    return args.files, args.output, args.format
     
 
 def main():
-    file, output = get_args()
-    if not output:
-        show(file)
+    files, output, format = get_args()
+    if output: # Only the first input file is rendered
+        save(files[0], output)
+    elif format:
+        for file in files:
+            output = pathlib.Path(file).with_suffix("."+format)
+            save(file, output)
     else:
-        save(file, output)
+        for file in files:
+            show(file)
     return
     
 
