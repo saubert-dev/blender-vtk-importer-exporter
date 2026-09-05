@@ -284,6 +284,29 @@ def PolyData_two_merged(
     return dataset
     
 
+@pytest.fixture(scope="session")
+def UnstructuredGrid_two_shuffled(
+    PolyData_two_merged,
+    UnstructuredGrid_two_pixels,
+    UnstructuredGrid_two_tetrahedrons,
+    manufactured_fields,
+    request
+):
+    full_dataset = merge_datasets(
+        request, manufactured_fields,
+        name_list=list(locals().keys())[:-2] # -2 to skip "manufactured_fields" and "request"
+    )
+    dataset = merge_datasets(
+        request, manufactured_fields,
+        dataset_list=[
+            remove_cells(full_dataset, invert_selection=False),
+            remove_cells(full_dataset, invert_selection=True)
+        ]
+    )
+    dump_dataset(dataset, request)    
+    return dataset
+    
+
 # Manufacturing of the datasets with a single cell
 
 @pytest.fixture(scope="session")
@@ -340,4 +363,8 @@ def UnstructuredGrid_one_pixel(UnstructuredGrid_two_pixels, request):
 def UnstructuredGrid_one_tetrahedron(UnstructuredGrid_two_tetrahedrons, request):
     return strip_dataset(UnstructuredGrid_two_tetrahedrons, request)
     
+
+@pytest.fixture(scope="session")
+def UnstructuredGrid_one_shuffled(UnstructuredGrid_two_shuffled, request):
+    return strip_dataset(UnstructuredGrid_two_shuffled, request)
     

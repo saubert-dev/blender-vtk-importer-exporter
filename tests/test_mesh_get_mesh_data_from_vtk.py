@@ -53,6 +53,9 @@ m_mesh = import_submodule("mesh")
             "UnstructuredGrid_one_tetrahedron", 4, 0, {"PolyData": -1, "UnstructuredGrid": 0}, id="one_tetrahedron"
         ),
         pytest.param(
+            "UnstructuredGrid_one_shuffled", 37, 7, {"PolyData": -1, "UnstructuredGrid": 10}, id="one_shuffled"
+        ),
+        pytest.param(
             "PolyData_two_vertexes", 2, 0, 0, id="two_vertexes"
         ),
         pytest.param(
@@ -84,6 +87,9 @@ m_mesh = import_submodule("mesh")
         ),
         pytest.param(
             "UnstructuredGrid_two_tetrahedrons", 6, 0, {"PolyData": -1, "UnstructuredGrid": 0}, id="two_tetrahedrons"
+        ),
+        pytest.param(
+            "UnstructuredGrid_two_shuffled", 37, 7, {"PolyData": -1, "UnstructuredGrid": 10}, id="two_shuffled"
         ),
     ],
 )
