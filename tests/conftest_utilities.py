@@ -66,24 +66,30 @@ def dump_dataset(dataset, request):
 to_remove_key = ".to_remove" # Hidden from Blender UI
 
 
+# Add attributes to a dataset, tag the cells to be deleted
+#   and dump it to disk
+def finalize_dataset(dataset, fields, request):
+    set_attributes(dataset, fields)
+    
+    to_remove = np.full(dataset.cell_data.valid_array_len, True)
+    to_remove[0] = False # To keep only the first cell
+    dataset.cell_data[to_remove_key] = to_remove
+    
+    dump_dataset(dataset, request)
+    return
+    
+
 # Manufacture a PolyData dataset
 def make_PolyData(
     request,
-    points, fields, 
+    points, fields,
     verts=None, lines=None, faces=None, strips=None
 ):
     dataset = pv.PolyData(
         points,
         verts=verts, lines=lines, faces=faces, strips=strips
     )
-    
-    set_attributes(dataset, fields)
-    to_remove = np.full(dataset.cell_data.valid_array_len, True)
-    to_remove[0] = False # To keep only the first cell
-    dataset.cell_data[to_remove_key] = to_remove
-    
-    dump_dataset(dataset, request)
-    
+    finalize_dataset(dataset, fields, request)
     return dataset
     
 
