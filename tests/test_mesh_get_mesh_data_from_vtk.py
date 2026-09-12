@@ -127,4 +127,17 @@ class TestClass:
             assert len(faces) == n_faces[dataset_type]
         else:
             assert len(faces) == n_faces
+
+
+@pytest.mark.xfail(
+    reason="PIXEL connectivity needs perimeter ordering for Blender",
+    raises=AssertionError,
+    strict=True,
+)
+def test_pixel_connectivity(UnstructuredGrid_two_pixels):
+    _, _, faces = m_mesh.get_mesh_data_from_vtk(UnstructuredGrid_two_pixels)
+    assert [list(face) for face in faces] == [
+        [0, 1, 4, 3],
+        [1, 2, 5, 4],
+    ]
         
